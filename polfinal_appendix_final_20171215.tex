@@ -1,0 +1,244 @@
+%% LyX 2.2.3 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[english]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{geometry}
+\geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+\usepackage{amsmath}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+\makeatother
+
+\usepackage{babel}
+\begin{document}
+
+\appendix
+In this appendix, we formally derive our main PDE system (1.1) as
+the continuum limit of a discrete agent-based model of crime with
+police patrol. This discrete model is an extension of the two-agent
+Short model in {[}11{]} by introducing a police agent which patrols
+strategically towards crime hotspots and affect crime events indirectly
+by deterring potential criminals at the same location. 
+
+The idea of police enforcement in the vicincity of crime hotspots
+is not new. Variants of such a strategy is broadly known as ``cops-on-the-dots''
+(cf. {[}11,22,33{]} and the references therein). In some modelling
+efforts (e.g. in {[}33{]}), a ``cops-on-the-dots'' strategy could
+entail a top-down coordination among police officers equipped a bird's
+eye view of the current distrubution of criminal events or density,
+so as to optimize police deployment against crime hotspots. In contrast,
+with the consideration that information about attractiveness of locations
+and distribution of criminals (who are yet to commit a crime) cannot
+be easily determined with precision, we instead take a conservative
+approach to the ability of police officers to focus on hotspots and
+assume that each police officer move independently of each other as
+random walkers, but biased towards locations with higher attractiveness
+in a way analogous to criminals. This is more in line with the strategy
+presented in {[}11, Jones-Brantingham-Chayes{]}, which coincidentally
+was also called ``cops-on-the-dots'' by the authors. Our approach
+in this paper gives rise to a non-linear diffusion term in the police
+PDE (a feature that is also present in {[}11{]} and {[}22{]} but not
+{[}33{]}), but with both the ``random walker'' and ``cops-on-dot-dots''
+strategies in {[}11{]} as special cases. In addition, our model also
+allows for a different relative speed of movement for police and a
+focus parameter that describes how motivated police officers are towards
+roaming to more crime-attractive locations.
+
+As for how police presence affects crime, we consider the influence
+to be indirect, and consider only its effect on criminals but not
+attractiveness. More precisely, we only model for a deterrance effect
+(compare ``behavior modification'' in {[}11{]}), meaning that in
+the presence of police agents, the number of criminals at the same
+location will be reduced. This reduction could occur in a way analogous
+to prey-predator interaction, in which criminals that are already
+present go home upon contact with police officers instead of continuing
+to roam. This is the approach used in {[}11{]}. Another way is to
+assume that the rate new criminal emerges at each location is reduced
+in proportion to the number of police agents present. In other words,
+the police's deterrance effect precludes some potential criminals
+to enter into the system altogether. While we are interested in both
+approaches, we find the latter approach mathematically more tractable
+and it is thus employed in this paper.
+
+We now proceed briefly review previous work and highlight a few unique
+details and explain how the three-component PDE system (1.1) was derived.
+The full details of both the discrete model and the formal continuum
+limit derivations are availble in {[}short et al, chayes et al, my
+thesis...{]}
+
+\subsection*{The Discrete Agent-based Model}
+
+Our model is a three-agent model that couples the dynamics of two
+human agents: criminals $\mathrm{N}$ and police officers $\mathrm{R}$
+that move on a 2D rectangular lattice (with spacing $\ell)$ with
+an underlying scalar field $\mathrm{A}$ known as attractiveness.
+The attractiveness field $\text{A}$ of any location $\underbar{x}=(i,j)$
+in discrete time $\text{t}$ serves the following two purposes. Firstly,
+$\mathrm{A}(\underbar{x},\text{t})$ gives a measure of risk of crime,
+quantized by the likelihood whereby each criminal occupying the location
+would commit burglary and then return home:
+\[
+p_{v}(\underbar{x},t)=\frac{\mathrm{A}(\underbar{x},\text{t})}{1+\mathrm{A}(\underbar{x},\text{t})}.
+\]
+Secondly, $\mathrm{A}(\underbar{x},\text{t})$ gives a measure of
+attractiveness for both criminals and police officers in the four
+neighboring locations $\underbar{x}'\in\{(i+1,j),\,(i-1,j),\;(i,j+1),\,(i,j-1)\}$
+(which we would denote $\underbar{x}'\sim\underbar{x}$ from this
+point onwards), to decide, in a stochastic manner, to move there or
+not:
+\[
+p_{m}(\underbar{x}',\text{t};\underbar{x})=\frac{\mathrm{A}(\underbar{x}',\text{t})}{\sum_{\underbar{x}''\sim\underbar{x}}\mathrm{A}(\underbar{x}'',\text{t})},\qquad p_{k}(\underbar{x}',\text{t};\underbar{x})=\frac{\mathrm{A}^{k}(\underbar{x}',\text{t})}{\sum_{\underbar{x}''\sim\underbar{x}}\mathrm{A}^{k}(\underbar{x}'',\text{t})},\,\text{where }k\geq0\text{ is fixed}.
+\]
+Notice that in both cases we assume the movement is biased towards
+higher attractiveness. The difference, and the novelty of this model,
+lies in the fact that a power law is applied on attractiveness field
+$\mathrm{A}$ to parametrize a degree of \emph{focus }of police patrol.
+We summarize the effect of the parameter $k$ as follows: 
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline 
+Range of $k$ & Effect on patrolling strategy\tabularnewline
+\hline 
+\hline 
+$0$ & unbiased random walk\tabularnewline
+\hline 
+$(0,1)$ & less focussed than criminals\tabularnewline
+\hline 
+1 & ``mimicry'' movement\tabularnewline
+\hline 
+$(1,\infty)$ & more focussed than criminals\tabularnewline
+\hline 
+$\to\infty$ & deterministic: $p_{k}(\underbar{x}',t;x)=\begin{cases}
+1 & \text{for }\underbar{x}'=\max_{\underbar{x}''\sim\underbar{x}}\mathrm{A}(\underbar{x}'',\text{t})\\
+0 & \text{otherwise}
+\end{cases}$\tabularnewline
+\hline 
+\end{tabular}
+\par\end{center}
+
+We assume as in {[}11,22,33{]} that the values of $\mathrm{A}$ and
+$\mathrm{N}$ are updated at discrete time steps of $\delta\text{t}$.
+A critical component of the discrete Short model {[}11{]} that contribute
+to the existence of hotspot patterns is the decomposition of attractiveness
+into static and dynamic components: $\mathrm{A}(\underbar{x},t)=\mathrm{A_{sta}}(\underbar{x})+\mathrm{A_{dyn}}(\underbar{x},\text{t})$,
+and then modeling the phenomena of repeat and near-repeat victimization
+respectively by introducing a feedback effect when crime events occur,
+and a localized diffusion of the dynamic portion of the attractiveness
+field:
+
+\[
+\text{A}(\underbar{x},\text{t}+\text{\ensuremath{\delta}t})=\left[(1-\epsilon)\text{\ensuremath{A_{dyn}}}(\underbar{x},\text{t})+\frac{\epsilon}{4}\sum_{\underbar{x}'\sim\underbar{x}}\text{\ensuremath{A_{dyn}}}(\underbar{x}',\text{t})\right](1-\omega)+\theta\text{N}(\underbar{x},\text{t})\text{A}(\underbar{x},\text{t})+\text{\ensuremath{A_{sta}}}(\underbar{x})
+\]
+where $\epsilon,\,\omega>0$ describe rates of diffusion (to model
+localized spread of risk) and decay (to model fading memory), while
+$\theta>0$ measures the effect on attractiveness by each crime event,
+whose number is assumed to be proportional to $\text{N}(\underbar{x},\text{t})\text{A}(\underbar{x},\text{t})$.
+In this paper, we also assume $\text{\ensuremath{A_{sta}}}(\underbar{x})\equiv\alpha$
+to be spatially homogeneous.
+
+We augment the two-component Short model by coupling the third police
+equation to the criminal equation through the background criminal
+reintroduction rate to $\Gamma-\nu\text{R}(\underbar{x},\text{t})$,
+where $\Gamma>0$ is the spatially homogeneous rate in the absence
+of police and $\nu>0$ a constant. We remark that setting $\nu=0$
+recovers the Short the model (and also the corresponding equations
+in the variants appearing in {[}11,22,33{]}), and our approach amounts
+to using an inhomogeneous criminal reintroduction rate and positing
+that the first order correction is due to police presence. For the
+police equation, we rescale the time stepping of $\text{R}$ by a
+factor of $\tau$ to distinguish the speed of movements of the two
+human agents, i.e. $\text{R}$ is updated at discrete time steps of
+$\tau_{u}\delta\text{t}$. The flow chart for programming the discrete
+simulation would thus be necessarily broken into separete loops because
+the Monte Carlo steps would not occur at the same discrete time values
+in general, but we do not go into detail here as it is not the focus
+of this paper.
+
+Finally, with the form of biased random walk specified above for the
+police officers, we may state the final form of our discrete model
+as follows:
+
+\begin{align*}
+\text{A}(\underbar{x},\text{t+\ensuremath{\delta}t}) & =\left[(1-\epsilon)\left(\text{A}(\underbar{x},\text{t})-\alpha\right)+\frac{\epsilon}{4}\sum_{\underbar{x}'\sim\underbar{x}}\left(\text{A}(\underbar{x}',\text{t})-\alpha\right)\right](1-\omega\text{\ensuremath{\delta}t})+\theta\text{A}(\underbar{x},\text{t})\text{N}(\underbar{x},\text{t})+\alpha,\\
+\text{N}(\underbar{x},\text{t+\ensuremath{\delta}t}) & =\sum_{\underbar{x}'\sim\underbar{x}}\text{N}(\underbar{x}',\text{t})\left(1-p_{v}(\underbar{x}',\text{t})\right)p_{m}(\underbar{x};\text{t},\text{\ensuremath{\underbar{x}}}')+\Gamma-\nu\text{R}(\underbar{x},\text{t}),\\
+\text{R}(\underbar{x},\text{t+\ensuremath{\tau\delta}t}) & =\sum_{\underbar{x}'\sim\underbar{x}}\text{R}(\underbar{x}',\text{t})p_{k}(\underbar{x};\text{t},\underbar{x}').
+\end{align*}
+Note that under the summations, the order of the arguments $\underbar{x}$
+and $\underbar{x}'$ of $p_{m}$ and $p_{k}$ as compared to the definition,
+are correctly swapped as shown above. One would as a result observe
+that, for $\text{N}$ and $\text{R}$, the calculation of the next
+step depends on information of all the neighbors of each neighbor
+$\underbar{x}'$ of $\underbar{x}$, which totals to nine points and
+includes $\underbar{x}$ itself.
+
+\subsection*{Formal Continuum Limit}
+
+We define the continuous density functions $A,\,\rho,\,U$ on $[0,S]\times[0,\infty)$
+by taking formal continuum limits of their discrete counterparts and
+replacing the arguments by continuous variables: 
+\[
+\text{N(\ensuremath{\underbar{x}},\text{t})}/\ell^{2}\rightarrow\rho(x,t),\;\text{R(\ensuremath{\underbar{x}},\text{t})}/\ell^{2}\to U(x,t),\;\text{A(\ensuremath{\underbar{x}},\text{t})}\to A(x,t)\quad\text{as }\ell,\delta\text{t}\to0\text{ with }\ell^{2}/\delta\text{t}\text{ fixed.}
+\]
+The main purpose of this section is to provide details to the derivation
+of the new PDE for $U$ in (1.1). We refer readers to {[}11,33, my
+thesis, KWW{]} for details of the derivations of $A$ and $\rho$.
+
+To this end, we need to apply the discrete Laplacian to {[}our discrete
+equations above{]} to obtain expressions evaluated at $(\underbar{x},t)$
+as follows. 
+
+We use
+\[
+\triangle\text{A}^{k}(\underline{\text{x}}',\text{t})\equiv\frac{1}{\ell^{2}}\sum_{\underbar{x}''\sim\underbar{x}'}\left(\text{A}^{k}(\text{\ensuremath{\underline{x}}}'',\text{t})-\text{A}^{k}(\text{\ensuremath{\underline{x}}'},\text{t})\right)
+\]
+to rewrite the expected number police moving from each neighboring
+points $\underbar{x}'$ to $\underbar{x}$ as s
+\begin{align*}
+\text{R}(\underbar{x}',\text{t})p_{k}(\underbar{x},\text{t};\underbar{x}') & =\text{A}^{k}(\underbar{x},\text{t})\cdot\left[\frac{\text{R}(\underbar{x}',\text{t})}{\ell^{2}\triangle\text{A}^{k}(\underbar{x}',\text{t})+4\text{A}^{k}(\underbar{x}',\text{t})}\right]\equiv\text{A}^{k}(\underbar{x},\text{t})\cdot\text{T}(\underbar{x}',\text{t})
+\end{align*}
+where $\text{T}$ is defined by the expression in square brackets.
+Then, we sum for all $\underbar{x}'\sim\underbar{x}$ and apply the
+discrete Laplacian again on $\text{T}$ to write
+\[
+\text{R}(\underbar{x},\text{t}+\tau_{u}\text{\ensuremath{\delta}t})=\text{A}^{k}(\underbar{x},\text{t})\cdot\sum_{\underbar{x}'\sim\underbar{x}}\text{T}(\underbar{x}',t)=\text{A}^{k}(\underbar{x},\text{t})\left(\ell^{2}\triangle\text{T}(\underbar{x},\text{t})+4\text{T}(\underbar{x},\text{t})\right)
+\]
+
+To derive an equation for time derivative of police density $U$,
+we observe that 
+\begin{align*}
+\tau_{u}\frac{\partial U}{\partial t} & \approx\frac{\text{R}(\underbar{x},\text{t}+\tau_{u}\delta\text{t})-\text{R}(\underbar{x},\text{t})}{\ell^{2}\delta\text{t}}\\
+ & =\frac{\text{A}^{k}(\underbar{x},\text{t})\triangle\text{T}(\underbar{x},\text{t})}{\delta\text{t}}+\frac{4\text{A}^{k}(\underbar{x},\text{t})\text{T}(\underbar{x},\text{t})-\text{R}(\underbar{x},\text{t})}{\ell^{2}\delta\text{t}}
+\end{align*}
+which we assume to converge as $\ell,\delta\text{t}\to0$ with $\ell^{2}/\delta\text{t}=4D$
+fixed to define the left-hand-side. We may now drop the arguments
+$(\underbar{x},\text{t})$ from this point onwards for clarity of
+presentation.
+
+As $\ell,\text{\ensuremath{\delta}t}\to0$, we estimate that 
+\[
+\text{T}=\frac{\text{R}}{4\text{A}^{k}}\left(1+\frac{\ell^{2}}{4\text{A}^{k}}\triangle\text{A}^{k}\right)^{-1}\approx\frac{\text{R}}{4\text{A}^{k}}\left(1-\frac{\ell^{2}}{4\text{A}^{k}}\triangle\text{A}^{k}\right).
+\]
+Hence, by replacing $\ell^{2}=4D\text{\ensuremath{\delta}t}$ and
+$R/\ell^{2}\to U$, we obtain these two formal limits:
+\begin{align*}
+\frac{\text{T}}{\text{\ensuremath{\delta}t}} & \approx\frac{\text{R}}{4\text{A}^{k}\delta\text{t}}\to D\cdot\frac{U}{A^{k}},\text{ and}\\
+\frac{4\text{A}^{k}\text{T}-\text{R}}{\ell^{2}\text{\ensuremath{\delta}t}} & \approx-\frac{\text{R}}{4\text{A}^{k}\delta\text{t}}\triangle\text{A}^{k}\to-D\cdot\frac{U}{A^{k}}\Delta A^{k}.
+\end{align*}
+We may then substitute these into {[}$\partial U/\partial t$, ?{]}
+and take limits to give a PDE for $U$: 
+\[
+\tau_{u}\frac{\partial U}{\partial t}=D\left(A^{k}\Delta\left(\frac{U}{A^{k}}\right)-\frac{U}{A^{k}}\Delta A^{k}\right)
+\]
+By renaming $k=q/2$, the right-hand-side above can be shown via Leibniz
+rule to be equivalent to
+\[
+D\nabla\cdot\left(\nabla U-\frac{qU}{A}\nabla A\right).
+\]
+
+\end{document}
